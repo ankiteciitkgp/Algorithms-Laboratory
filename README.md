@@ -1,3 +1,4 @@
 # Algorithms-Laboratory
 
-The repositary contains solutions to Algorithms Laboratory of IIT Kharagpur. 
+The repositary contains a set of experiments on Algorithms writeen in C.
+
