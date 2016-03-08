@@ -1,0 +1,62 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+
+\title{Report for assignment 8}
+\author{Ankit Bansal (12EC30003)}
+
+\begin{document}
+
+\maketitle
+
+\paragraph{Graphs}
+\begin{enumerate}
+ \item \textbf{First step:: Creation}
+
+According to the number of nodes and probability given using command line nodes are created and edge between each node is created with the input probability. While creating the graph we didn't allow direct cyclic connection between two nodes.
+ 
+
+Complexity analysis:: Average Case \textbf{O$\left( V^2 \right)$}
+
+
+ \item \textbf{Second step:: Check for cyclicity}
+
+Applying Depth First Search(DFS) to travel the entire graph. 
+If the cycle is formed then the flag gets updated that a cycle is there else no cycle.
+
+ Complexity analysis::Average Case \textbf{O$\left( |V| + |E| \right)$}
+ 
+\item\textbf{Third step:: Topological Sort}
+
+If no cycle is there, topological sort is performed.  Topological ordering of a directed graph is a linear ordering of its vertices such that for every directed edge uv from vertex u to vertex v, u comes before v in the ordering.
+
+Complexity analysis:: \textbf{O$\left( |V| + |E| \right)$}
+
+\item\textbf{Fourth step:: Euler Tour}
+
+A Euler tour of a connected, directed graph G = (V, E) is a cycle that traverses each edge of graph G exactly once, although it may visit a vertex more than once.
+
+G(V,E) has an Euler tour if and only if in-degree is equal to out-degree for each vertex.
+
+Find the node with outgoing greater than incoming. Start tour from this point. At each node, check for valid edge connected to each node, if valid then remove the edge and move to the next node. If all the nodes are invalid, then forcefully use the first edge and start Euler tour again.
+
+Complexity analysis:: \textbf{O$\left( |E| \right)$}
+
+\item\textbf{Fifth step::Edge To be removed}
+
+All the edges that are left after removing edges during Euler tour, are those edges which need to be removed to form Euler tour. 
+
+Complexity analysis (Maximum can be):: \textbf{O$\left( |E| \right)$}
+
+
+
+\end{enumerate}
+
+
+
+
+
+The command to compile this document:
+\fbox{\tt pdflatex rep} or \fbox{\tt pdflatex rep.tex}
+
+\end{document}

@@ -1,0 +1,105 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[left = 12mm,top = 12mm,bottom = 12mm, right = 12mm]{geometry}
+
+\title{Report for assignment 1}
+\author{Ankit Bansal (12EC30003)}
+
+\begin{document}
+
+\maketitle
+
+\paragraph{Determination of optimal base matrix size while using Strassen's Matrix Multiplication}
+\begin{enumerate}
+
+ \item \textbf{Concept of Strassen's Marix Multiplication Algorithm}
+
+An inline formula for matrix multiplication: $\mathbf{C} = \mathbf{A} \mathbf{B}$.
+
+Let $\mathbf{A}$ be a $m \times l$ matrix and $\mathbf{B}$
+a $l \times n$ matrix.
+
+Each element $c_{ij}$ of $\mathbf{C}$ is defined as
+$\sum_{k=1}^{k=l} a_{ik}c_{kj}$.
+
+A mathematical formula for the same can be written as:
+
+\(
+\left[
+\begin{array}{cc}
+C_{11}&C_{12}\\
+C_{21}&C_{22}\\
+\end{array}
+\right]
+=
+\left[
+\begin{array}{cc}
+A_{11}&A_{12}\\
+A_{21}&A_{22}\\
+\end{array}
+\right]
+\left[
+\begin{array}{cc}
+B_{11}&B_{12}\\
+B_{21}&B_{22}\\
+\end{array}
+\right]
+=
+\left[
+\begin{array}{cc}
+A_{11}B_{11} + A_{12}B_{21} & A_{11}B_{12} + A_{12}B_{22}\\
+A_{21}B_{11} + A_{22}B_{21} & A_{21}B_{12} + A_{22}B_{22}\\
+\end{array}
+\right]
+\)
+
+where $A_{ij}$ ,$ B_{ij}$ and $C_{ij}$  are matrices of order $\frac{m}{2}$ x $\frac{l}{2}$, $\frac{l}{2}$ x $\frac{n}{2}$ and $\frac{m}{2}$ x $\frac{n}{2}$ respectively.
+
+In Strassen's Multiplication instead of using  multiplications we use 7 multiplications as show in equations below. Equations for Strassen's Multiplication are as follows:
+
+\(
+\begin{array}{cc}
+P_1 =& (A_{11}+ A_{22})(B_{11}+B_{22})\\
+P_2 =& (A_{21}+A_{22})B_{11}\\
+P_3 =& A_{11}(B_{12}-B_{22})\\
+P_4 =& A_{22}(B_{21}-B_{11})\\
+P_5 =& (A_{11}+A_{12})B_{22}\\
+P_6 =& (A_{21}-A_{11})(B_{11}+B_{12})\\
+P_7 =& (A_{12}-A_{22})(B_{21}+B_{22})\\
+C_{11}=& P_1 + P_4 - P_5 + P_7\\
+C_{12}=& P_3 + P_5\\
+C_{21}=& P_2 + P_4\\
+C_{22}=& P_1 + P_3 - P_2 + P_6\\
+\end{array}
+\)
+
+The number of floating point operations (flops) are given by:
+\begin{description}
+  \item[Conventional method:] 
+The multiplication of two nxn matrices incurs $n^3$ number of multiplications and$ n^2(n-1)=n^3-n^2$ number of addition operations.
+  \item[Strassen's Algorithm:]
+The multiplication of two nxn matrix we have to perform 7 matrix multiplications and 18 additions of matrix dimentions $\frac{n}{2}$ x $\frac{n}{2}$. Thus, the total no. of flops required is$ \frac{7}{8}(2n^3) + \frac{9}{2}n^2$.
+
+\end{description}
+
+\paragraph{Recurrence to characterise the running time}
+Let T(n) be the running time of Strassen's algorithm, then it satisfies the following recurrence relation:
+T(n) = 7T($\frac{n}{2}$) + O($n^2$)
+The hidden constant in the O($n^2$) term is larger than the corresponding constant for the standard divide and conquer algorithm for small matrices. However, for large matrices this algorithm yields an improvement over the standard one with respect to time. Therefore a hybrid approach is useful which computes multiplication using Strassen's Algorithm and applies the decomposition upto a dimension of matrix and switches over to usual approach after that point.
+ \item \textbf{Implementation of the Algorithm}
+
+ For implementation of the Strassen's Algorithm, I created two n x n matrices mat1 and mat2 using drand48(). A function \textit{matmultiply} was created which takes two matrices, an integer \textit{n}  corrspondng to the dimensions of the matrix which is in powers of 2 , an integer \textit{q}  corresponding to the dimension of the matrix at which the function switches to the base case (which uses conventional method for multiplication) and a pointer \textit{a}  to compute the  number of flops as input and gives product of the input matrices as output. 
+
+\textbf{float **matmultiply(float **mat1,float **mat2,int n,int *a,int q)} 
+
+In the above function for the base case i.e. $n<= 2^q$ conventional approach was used and for $n>= 2^q$ Strassen's Algorithm was applied. For the application 11 matrices($p_{i}'s$ and $c_{ij}'s$) of order  $\frac{n}{2}$ x $\frac{n}{2}$  were creating using dynamic memory allocation. 
+Two other functions \textit{matrixsub} and \textit{matrixadd} were also created which returns subtraction and addition of two matrices respectively to assist matrix multiplication function. All the 11 matrices were computed using the functions \textit{matmultiply, matrixsum, matrixsub} as given in Strassen's Algorithm Equations.
+In all the functions integer pointer is used to calculated flops.
+
+ \item \textbf{Identification of the optimum size of the base case}
+To find optimum base case, I calculated number of flops for all values of q starting from 1 to $log_{2}$(n) using a for loop and the value for which number of flops are minimum was printed.
+
+
+
+\end{enumerate}
+\end{document}

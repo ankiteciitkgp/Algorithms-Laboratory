@@ -1,0 +1,113 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm}
+
+\title{Report for assignment 3}
+\author{Ankit Bansal (12EC30003)}
+
+\begin{document}
+
+\maketitle
+
+\paragraph{AVL trees with duplicates}
+\begin{enumerate}
+ \item \textbf{Overview of the code}
+
+Avl tree is self balancing binary tree. Therefor after every operation on the tree the tree should be balanced. The program takes command line arguments from the user in a particular format and terminates after performing the operations specified in the command line.
+\begin{description}
+  \item[Insertion: I key "Value"]
+ Insertion function inserts a string at a particular key value specified by the user. After inserting the key the tree balances itself if it is unbalanced using rotateRight and rotateLeft functions. If the key value is duplicate it stores the duplicate value at the left of pre existing value and balances itself.
+  \item[Search: S Key]
+Search function searches for all possible instaces of the specified key recursively and prints all  possible values of that key.
+  \item[iotraverse: T Key]
+ioTraverse function traverses the AVL tree from leftmost leaf node to righmost leaf node recursively and prints the tree in sorted order.
+  \item[Delete: D Key]
+Delete function deleted all possible instances of the specified key. If key value is smaller than current node key then it recursively deletes the specified key from roots left  node and if key is greater than  than current node key then it recursively deletes the specified key from roots right  node. 
+
+If key is equal to current node's key it deletes that node depending on whether it has any child node. If no child node is present it simply deletes that node and returns NULL. If left node is present it compares left nodes key with the specified key if they are same (since all nodes with same keys will be adjacent) than it deletes that node recursively and return the deleted left node else it simply returns left node after deleting current node.Similarly for the case when only right node is  present.
+
+Now if both left and right node is present it replaces current nodes value and key with value and key of  smallest key present at right node of current key and deletes that smalled key on the right. After deleting we have to agan balance our tree which is done using rightRotate and leftRotate similar to insert operation.
+\end{description}
+ \item \textbf{Description of input and output}
+\end{enumerate}
+
+The input  and output of the program is given below:
+
+Sample Input: 
+
+I 20 A I 30 B I 40 C I 50 D I 40 E T S 40 D 40 S 40 T I 60 P I 70 Q I 80 R I 80
+
+ S T S 80 D 80 T  
+
+Output:
+
+In order Traverse started
+
+20-A
+
+30-B
+
+40-C
+
+50-D
+
+Search results for key = 40:
+
+C
+
+E
+
+Deleting key = 40:
+
+Search Results for key = 40;
+
+No element found
+
+In order Traverse started
+
+20-A
+
+30-B
+
+50-D
+
+In order Traverse started
+
+20-A
+
+30-B
+
+50-D
+
+60-P
+
+70-Q
+
+80-S
+
+80-R
+
+Search Results for key = 80:
+
+R
+
+S
+
+Deleting key = 80:
+
+In order Traverse started
+
+20-A
+
+30-B
+
+50-D
+
+60-P
+
+70-Q
+
+\end{document}

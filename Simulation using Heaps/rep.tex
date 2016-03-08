@@ -1,0 +1,73 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm}
+
+\title{Report for assignment 2}
+\author{Ankit Bansal (12EC30003)}
+
+\begin{document}
+
+\maketitle
+
+\paragraph{Simulation using Heaps}
+\begin{enumerate}
+ \item \textbf{Overview of the code}
+The code takes input number of balls and using rand() function allocates position, velocity, radius to every ball. After that simulation for time limit = 100 sec is done using function simulation(). I gives output Initially assigned properties of balls and the sequence in which events are simulated in command window displaying correectness of heap data structure created.
+
+The program outputs many text files depending on the number of balls. It outputs coordinates of every ball at every event in separate text file and one more file named output.txt which contains log of every event. The text file containing ball coordinates is used by Latex to generate plot for simulation.
+\begin{description}
+  \item[Procedure of simulation:]
+The code first predicts every possble event(collision) between balls and walls and insert it into a minheap. Then event with minimum time is removed from heap and cheked whether the event is valid or not and then the event is processed. After the event again future events are predicted for the balls envolved in the event and inserted in the heap data structure.This is done till every event is processed.
+
+  \item[Used functions:]
+For prediction of events there are four functions which are required:
+timetohitball(), timetohitverticalwall(), timetohithorizontalwall(), insertEvent().
+
+These function calculates time for collision between specified ball, vertical wall and ball, horizontal wall and ball respectively and insert it into heap datastructure by inserting element at the end and then using swimEvent() to place it according to its priority.
+
+For processing the events the following functions are used:
+move(),bouceoff(), bounceoffvertical(), bounceoffhorizontal(()
+move() functions as by name moves all the balls to their next state as per the time of next event.
+bounce functions changes the state of balls afte collision with other balls,vertial wall and horizontal wall respectively.
+\end{description}
+\clearpage 
+ \item \textbf{Time Complexity of functions}
+\begin{description}
+  \item[timetohit()] O(1)
+  \item[timetohitvertical()] O(1)
+  \item[timetohithorizontal()] O(1)
+  \item[swapEvent()] O(1)
+  \item[sinkEvent()]O(logn)
+  \item[swimEvent()]O(logn)
+ \item[insetEvent()]O(logn)
+  \item[predict()]O(nlogn)
+  \item[bounceoff()]O(1)
+\item[bounceoffHorizontal()]O(1)
+\item[bounceoffVertical()]O(1)
+ \item[delminEvent()]  O(logn)
+\end{description}
+\end{enumerate}
+\addtolength{\oddsidemargin}{-.875in}
+% Preamble: \pgfplotsset{width=7cm,compat=1.11}
+\begin{tikzpicture}[scale = 1.6]
+\begin{axis}[
+      title=Trajectories of different balls,
+      xlabel={x axis},
+      ylabel={yaxis},
+      grid=major
+]
+\addplot[mark=none,red] table [x=x,y=y] {r.txt};
+\addplot[mark=none,blue] table [x=x,y=y] {b.txt};
+\addplot[mark=none,green] table [x=x,y=y] {g.txt};
+\addplot[mark=none,orange] table [x=x,y=y] {o.txt};
+\addplot[mark=none,yellow] table [x=x,y=y] {y.txt};
+\iffalse
+\fi
+\end{axis}
+\end{tikzpicture}
+
+
+\end{document}
